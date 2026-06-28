@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HealthCart AI — Heart Disease Risk Predictor</title>
+    <title>HealthCart AI — Diabetes Risk Predictor</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -43,97 +43,39 @@
         ::-webkit-scrollbar-track { background: #050F1A; }
         ::-webkit-scrollbar-thumb { background: #0B1629; border: 2px solid #050F1A; border-radius: 8px; }
         ::-webkit-scrollbar-thumb:hover { background: #00C9A7; }
-
         .container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 20px; position: relative; }
-
-        /* Navbar */
         navbar {
-            background: rgba(11,22,41,0.80);
-            backdrop-filter: blur(12px);
+            background: rgba(11,22,41,0.80); backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0,201,167,0.15);
-            padding: 20px 0;
-            position: fixed; top: 0; left: 0; right: 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
+            padding: 20px 0; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.3s ease;
         }
         navbar.scrolled { background: rgba(5,15,26,0.95); padding: 12px 0; box-shadow: var(--hc-shadow-md); }
         .navbar-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-        .brand {
-            font-size: 22px; font-weight: 900;
-            background: linear-gradient(135deg, #00C9A7, #00FFCC);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-decoration: none; display: flex; align-items: center; gap: 8px;
-        }
+        .brand { font-size: 22px; font-weight: 900; background: linear-gradient(135deg, #00C9A7, #00FFCC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .nav-links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-        .nav-link {
-            color: var(--hc-text); font-size: 13px; font-weight: 600;
-            padding: 10px 15px; text-decoration: none;
-            transition: color 0.3s ease; position: relative;
-        }
+        .nav-link { color: var(--hc-text); font-size: 13px; font-weight: 600; padding: 10px 15px; text-decoration: none; transition: color 0.3s ease; position: relative; }
         .nav-link:hover { color: var(--hc-teal); }
-        .nav-link::after {
-            content: ''; position: absolute; bottom: 0; left: 15px; right: 15px;
-            height: 2px; background: var(--hc-teal);
-            transform: scaleX(0); transition: transform 0.3s ease;
-        }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 15px; right: 15px; height: 2px; background: var(--hc-teal); transform: scaleX(0); transition: transform 0.3s ease; }
         .nav-link:hover::after { transform: scaleX(1); }
-        .nav-link.active-tab { color: var(--hc-teal); }
-        .nav-link.active-tab::after { transform: scaleX(1); }
-
-        /* Hero */
-        .hero {
-            padding: 140px 0 80px;
-            background: linear-gradient(180deg, #050F1A 0%, #0B1629 100%);
-            position: relative; text-align: center; overflow: hidden;
-        }
-        .hero-glow {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            width: min(600px,100vw); height: min(600px,100vw);
-            background: radial-gradient(circle, rgba(0,201,167,0.08) 0%, transparent 70%);
-            pointer-events: none; z-index: 1;
-        }
+        .hero { padding: 140px 0 80px; background: linear-gradient(180deg, #050F1A 0%, #0B1629 100%); position: relative; text-align: center; overflow: hidden; }
+        .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(600px,100vw); height: min(600px,100vw); background: radial-gradient(circle, rgba(0,201,167,0.08) 0%, transparent 70%); pointer-events: none; z-index: 1; }
         .hero-badge { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px; position: relative; z-index: 2; }
         .hero h1 { font-size: 3.5rem; font-weight: 900; color: var(--hc-white); line-height: 1.2; letter-spacing: -1px; margin-bottom: 20px; position: relative; z-index: 2; }
         .hero h1 span { background: linear-gradient(135deg, #00C9A7, #00FFCC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { max-width: 600px; margin: 0 auto 35px; font-size: 16px; color: var(--hc-muted); position: relative; z-index: 2; }
-
-        /* Stats */
         .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; max-width: 960px; margin: 0 auto 40px; position: relative; z-index: 2; }
         .stat-card { background: rgba(17,31,53,0.4); border: 1px solid var(--hc-border); border-radius: var(--hc-radius-md); padding: 20px; backdrop-filter: blur(8px); }
         .stat-number { font-size: 36px; font-weight: 800; color: var(--hc-teal); margin-bottom: 5px; }
         .stat-label { font-size: 12px; color: var(--hc-muted); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Tab nav below hero */
-        .tab-nav {
-            display: flex; justify-content: center; gap: 10px;
-            padding: 30px 20px 0;
-            position: relative; z-index: 2;
-        }
-        .tab-btn {
-            background: rgba(17,31,53,0.6);
-            border: 1px solid rgba(0,201,167,0.2);
-            color: var(--hc-muted);
-            padding: 11px 24px; border-radius: var(--hc-radius-xl);
-            font-size: 13px; font-weight: 700; cursor: pointer;
-            transition: all 0.3s ease; letter-spacing: 0.3px;
-        }
+        .tab-nav { display: flex; justify-content: center; gap: 10px; padding: 30px 20px 0; position: relative; z-index: 2; }
+        .tab-btn { background: rgba(17,31,53,0.6); border: 1px solid rgba(0,201,167,0.2); color: var(--hc-muted); padding: 11px 24px; border-radius: var(--hc-radius-xl); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.3px; }
         .tab-btn:hover { border-color: var(--hc-teal); color: var(--hc-teal); }
         .tab-btn.active { background: var(--hc-teal); color: #000; border-color: var(--hc-teal); box-shadow: var(--hc-shadow-teal); }
-
-        /* Tab pages */
         .tab-page { display: none; }
         .tab-page.active { display: block; }
-
-        /* Result section */
         .result-section { display: none; max-width: 900px; margin: 40px auto 0; }
         .result-section.show { display: block; animation: fadeInUp 0.6s cubic-bezier(0.4,0,0.2,1); }
-        .result-card {
-            background: rgba(17,31,53,0.8);
-            border-radius: var(--hc-radius-lg);
-            padding: 35px; backdrop-filter: blur(16px);
-            text-align: center; position: relative; overflow: hidden;
-            margin-bottom: 16px;
-        }
+        .result-card { background: rgba(17,31,53,0.8); border-radius: var(--hc-radius-lg); padding: 35px; backdrop-filter: blur(16px); text-align: center; position: relative; overflow: hidden; margin-bottom: 16px; }
         .result-card.high-risk { border: 2px solid var(--hc-danger); box-shadow: 0 0 30px rgba(239,68,68,0.25); }
         .result-card.low-risk  { border: 2px solid var(--hc-success); box-shadow: 0 0 30px rgba(16,185,129,0.25); }
         .result-icon { font-size: 48px; margin-bottom: 15px; }
@@ -142,74 +84,25 @@
         .result-title { font-size: 24px; font-weight: 800; color: var(--hc-white); margin-bottom: 10px; }
         .result-desc  { font-size: 14px; color: var(--hc-text); max-width: 600px; margin: 0 auto 20px; }
         .result-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .result-disclaimer {
-            background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25);
-            border-radius: var(--hc-radius-md); padding: 16px 20px;
-            font-size: 12px; color: var(--hc-amber); max-width: 900px; margin: 0 auto 40px;
-        }
-
-        /* Glass Card */
-        .glass-card {
-            background: rgba(17,31,53,0.65);
-            border: 1px solid var(--hc-border);
-            border-radius: var(--hc-radius-lg);
-            box-shadow: var(--hc-shadow-md);
-            padding: 40px;
-            backdrop-filter: blur(16px);
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            position: relative; overflow: hidden;
-            max-width: 900px; margin: 30px auto 40px;
-        }
+        .result-disclaimer { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: var(--hc-radius-md); padding: 16px 20px; font-size: 12px; color: var(--hc-amber); max-width: 900px; margin: 0 auto 40px; }
+        .glass-card { background: rgba(17,31,53,0.65); border: 1px solid var(--hc-border); border-radius: var(--hc-radius-lg); box-shadow: var(--hc-shadow-md); padding: 40px; backdrop-filter: blur(16px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; max-width: 900px; margin: 30px auto 40px; }
         .glass-card:hover { border-color: rgba(0,201,167,0.4); box-shadow: var(--hc-shadow-lg), var(--hc-shadow-teal); }
-        .glass-card::before {
-            content: ''; position: absolute; width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(0,201,167,0.10) 0%, transparent 70%);
-            top: -100px; right: -100px; pointer-events: none;
-        }
-
-        /* Info/Guide Cards */
-        .info-glass {
-            background: rgba(17,31,53,0.65);
-            border: 1px solid var(--hc-border);
-            border-radius: var(--hc-radius-lg);
-            padding: 40px;
-            backdrop-filter: blur(16px);
-            max-width: 900px; margin: 30px auto 40px;
-        }
+        .glass-card::before { content: ''; position: absolute; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,201,167,0.10) 0%, transparent 70%); top: -100px; right: -100px; pointer-events: none; }
+        .info-glass { background: rgba(17,31,53,0.65); border: 1px solid var(--hc-border); border-radius: var(--hc-radius-lg); padding: 40px; backdrop-filter: blur(16px); max-width: 900px; margin: 30px auto 40px; }
         .info-glass h2 { font-size: 22px; font-weight: 800; color: var(--hc-white); margin-bottom: 30px; }
         .info-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
-        .info-item {
-            background: rgba(11,22,41,0.6); border: 1px solid rgba(0,201,167,0.1);
-            border-left: 3px solid var(--hc-teal);
-            border-radius: var(--hc-radius-md); padding: 18px;
-        }
+        .info-item { background: rgba(11,22,41,0.6); border: 1px solid rgba(0,201,167,0.1); border-left: 3px solid var(--hc-teal); border-radius: var(--hc-radius-md); padding: 18px; }
         .info-item h3 { font-size: 13px; font-weight: 700; color: var(--hc-teal); margin-bottom: 6px; }
         .info-item p  { font-size: 12px; color: var(--hc-muted); line-height: 1.6; }
-
-        /* Guide */
-        .guide-category {
-            background: rgba(11,22,41,0.6); border: 1px solid rgba(0,201,167,0.1);
-            border-left: 4px solid var(--hc-teal);
-            border-radius: var(--hc-radius-md); padding: 24px; margin-bottom: 20px;
-        }
+        .guide-category { background: rgba(11,22,41,0.6); border: 1px solid rgba(0,201,167,0.1); border-left: 4px solid var(--hc-teal); border-radius: var(--hc-radius-md); padding: 24px; margin-bottom: 20px; }
         .guide-category h3 { font-size: 15px; font-weight: 700; color: var(--hc-teal); margin-bottom: 16px; }
         .guide-item { background: rgba(5,15,26,0.5); border-radius: var(--hc-radius-sm); padding: 14px; margin-bottom: 12px; }
         .guide-item h4 { font-size: 13px; font-weight: 700; color: var(--hc-white); margin-bottom: 5px; }
         .guide-item p  { font-size: 12px; color: var(--hc-muted); line-height: 1.6; margin: 0; }
-        .guide-warning {
-            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
-            border-radius: var(--hc-radius-md); padding: 24px; margin-top: 20px; text-align: center;
-        }
+        .guide-warning { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: var(--hc-radius-md); padding: 24px; margin-top: 20px; text-align: center; }
         .guide-warning h3 { color: var(--hc-danger); margin-bottom: 10px; font-size: 15px; }
         .guide-warning p  { font-size: 13px; color: var(--hc-text); line-height: 1.6; }
-
-        /* Form */
-        .form-section-title {
-            font-size: 16px; font-weight: 700; color: var(--hc-white);
-            margin: 28px 0 14px; padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex; align-items: center; gap: 10px;
-        }
+        .form-section-title { font-size: 16px; font-weight: 700; color: var(--hc-white); margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
         .form-section-title:first-of-type { margin-top: 0; }
         .form-section-title i { color: var(--hc-teal); }
         .form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
@@ -217,85 +110,33 @@
         .form-group.full-width { grid-column: span 2; }
         label { font-weight: 600; font-size: 13px; color: var(--hc-text); letter-spacing: 0.3px; display: flex; align-items: center; justify-content: space-between; }
         label .label-tip { font-size: 11px; color: var(--hc-muted); font-weight: 400; }
-        input, select {
-            background: var(--hc-navy); border: 2px solid rgba(0,201,167,0.15);
-            border-radius: var(--hc-radius-md); color: var(--hc-white);
-            padding: 12px 18px; font-family: 'Inter', sans-serif; font-size: 14px;
-            transition: all 0.3s ease; width: 100%;
-        }
+        input, select { background: var(--hc-navy); border: 2px solid rgba(0,201,167,0.15); border-radius: var(--hc-radius-md); color: var(--hc-white); padding: 12px 18px; font-family: 'Inter', sans-serif; font-size: 14px; transition: all 0.3s ease; width: 100%; }
         input:focus, select:focus { border-color: var(--hc-teal); box-shadow: var(--hc-shadow-teal); background: var(--hc-surface); outline: none; }
         input::placeholder { color: var(--hc-muted); }
-        select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E9FB8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 18px center; background-size: 16px; padding-right: 45px;
-        }
-
-        /* BMI */
-        .bmi-btn {
-            background: rgba(0,201,167,0.1); border: 1px solid rgba(0,201,167,0.3);
-            border-radius: var(--hc-radius-sm); color: var(--hc-teal);
-            font-size: 12px; font-weight: 700; padding: 7px 14px;
-            cursor: pointer; transition: all 0.3s ease; width: auto; margin-top: 4px; align-self: flex-start;
-        }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E9FB8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 18px center; background-size: 16px; padding-right: 45px; }
+        .bmi-btn { background: rgba(0,201,167,0.1); border: 1px solid rgba(0,201,167,0.3); border-radius: var(--hc-radius-sm); color: var(--hc-teal); font-size: 12px; font-weight: 700; padding: 7px 14px; cursor: pointer; transition: all 0.3s ease; width: auto; margin-top: 4px; align-self: flex-start; }
         .bmi-btn:hover { background: var(--hc-teal); color: var(--hc-white); }
-        .bmi-dialog {
-            display: none; background: var(--hc-navy); border: 1px solid rgba(0,201,167,0.3);
-            border-radius: var(--hc-radius-md); padding: 24px; margin-top: 15px;
-            position: relative; animation: fadeInUp 0.3s ease;
-        }
+        .bmi-dialog { display: none; background: var(--hc-navy); border: 1px solid rgba(0,201,167,0.3); border-radius: var(--hc-radius-md); padding: 24px; margin-top: 15px; position: relative; animation: fadeInUp 0.3s ease; }
         .bmi-dialog.open { display: block; }
         .bmi-dialog h3 { font-size: 15px; font-weight: 700; color: var(--hc-white); margin-bottom: 15px; }
         .close-btn { position: absolute; top: 12px; right: 14px; background: none; border: none; color: var(--hc-muted); font-size: 20px; cursor: pointer; line-height: 1; padding: 0; width: auto; }
         .close-btn:hover { color: var(--hc-white); }
-        .calc-btn {
-            background: linear-gradient(135deg, #00C9A7, #009B82); border: none;
-            border-radius: var(--hc-radius-xl); color: var(--hc-white); font-weight: 700;
-            font-size: 13px; padding: 10px 24px; cursor: pointer; margin-top: 10px;
-            transition: all 0.3s ease; width: auto;
-        }
+        .calc-btn { background: linear-gradient(135deg, #00C9A7, #009B82); border: none; border-radius: var(--hc-radius-xl); color: var(--hc-white); font-weight: 700; font-size: 13px; padding: 10px 24px; cursor: pointer; margin-top: 10px; transition: all 0.3s ease; width: auto; }
         .calc-btn:hover { box-shadow: var(--hc-shadow-teal); transform: translateY(-1px); }
-
-        /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #00C9A7, #009B82); border: none;
-            border-radius: var(--hc-radius-xl); color: var(--hc-white);
-            font-weight: 700; font-size: 15px; letter-spacing: 0.5px; padding: 14px 35px;
-            box-shadow: var(--hc-shadow-teal); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+        .btn-primary { background: linear-gradient(135deg, #00C9A7, #009B82); border: none; border-radius: var(--hc-radius-xl); color: var(--hc-white); font-weight: 700; font-size: 15px; letter-spacing: 0.5px; padding: 14px 35px; box-shadow: var(--hc-shadow-teal); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,201,167,0.4); }
-        .btn-outline {
-            border: 2px solid var(--hc-teal); background: transparent; color: var(--hc-teal);
-            border-radius: var(--hc-radius-xl); font-weight: 700; padding: 10px 24px;
-            transition: all 0.3s ease; text-decoration: none; display: inline-block; font-size: 13px;
-        }
+        .btn-outline { border: 2px solid var(--hc-teal); background: transparent; color: var(--hc-teal); border-radius: var(--hc-radius-xl); font-weight: 700; padding: 10px 24px; transition: all 0.3s ease; text-decoration: none; display: inline-block; font-size: 13px; }
         .btn-outline:hover { background: var(--hc-teal); color: var(--hc-white); box-shadow: var(--hc-shadow-teal); }
-        .nav-cta {
-            background: linear-gradient(135deg, #00C9A7, #009B82); border-radius: var(--hc-radius-xl);
-            padding: 10px 24px; color: var(--hc-white); font-weight: 700; font-size: 13px;
-            text-decoration: none; box-shadow: var(--hc-shadow-teal); transition: all 0.3s ease;
-            border: none; cursor: pointer;
-        }
+        .nav-cta { background: linear-gradient(135deg, #00C9A7, #009B82); border-radius: var(--hc-radius-xl); padding: 10px 24px; color: var(--hc-white); font-weight: 700; font-size: 13px; text-decoration: none; box-shadow: var(--hc-shadow-teal); transition: all 0.3s ease; border: none; cursor: pointer; }
         .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,201,167,0.4); }
-
-        /* Badges */
         .badge-brand { background: rgba(0,201,167,0.1); color: var(--hc-teal); border: 1px solid rgba(0,201,167,0.25); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-
-        /* AI Features */
         .ai-features-section { padding: 40px 0 80px; }
         .ai-features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 25px; margin-top: 40px; }
-        .ai-card {
-            background: linear-gradient(135deg, rgba(17,31,53,0.9) 0%, rgba(11,22,41,0.9) 100%);
-            border: 1px solid rgba(0,201,167,0.15); border-radius: var(--hc-radius-lg);
-            padding: 40px; text-align: center; box-shadow: var(--hc-shadow-md); transition: all 0.3s ease;
-        }
+        .ai-card { background: linear-gradient(135deg, rgba(17,31,53,0.9) 0%, rgba(11,22,41,0.9) 100%); border: 1px solid rgba(0,201,167,0.15); border-radius: var(--hc-radius-lg); padding: 40px; text-align: center; box-shadow: var(--hc-shadow-md); transition: all 0.3s ease; }
         .ai-card:hover { transform: translateY(-5px); border-color: var(--hc-teal); box-shadow: var(--hc-shadow-lg), var(--hc-shadow-teal); }
         .ai-icon { width: 70px; height: 70px; background: rgba(0,201,167,0.1); border-radius: var(--hc-radius-md); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--hc-teal); margin: 0 auto 25px; border: 1px solid rgba(0,201,167,0.2); }
         .ai-card h3 { font-size: 18px; color: var(--hc-white); margin-bottom: 12px; font-weight: 700; }
         .ai-card p  { font-size: 13px; color: var(--hc-muted); }
-
-        /* Footer */
         footer { background-color: #040A12; color: var(--hc-text); padding-top: 80px; border-top: 1px solid rgba(0,201,167,0.15); }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
         .footer-col { display: flex; flex-direction: column; gap: 15px; }
@@ -310,50 +151,15 @@
         .social-btn:hover { background: var(--hc-teal); color: var(--hc-white); border-color: var(--hc-teal); transform: translateY(-3px); }
         .footer-bottom { background: #02060B; padding: 25px 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 60px; text-align: center; }
         .footer-bottom p { font-size: 12px; color: var(--hc-muted); }
-
-        /* Toast */
-        #coming-soon-toast {
-            display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(17,31,53,0.95); border: 1px solid rgba(0,201,167,0.4);
-            border-radius: 40px; padding: 14px 28px; color: #E2E8F0; font-size: 14px;
-            font-weight: 600; z-index: 9999; backdrop-filter: blur(12px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4); gap: 10px; align-items: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 991.98px) {
-            .hero h1 { font-size: 2.8rem; }
-            .ai-features-grid { grid-template-columns: 1fr 1fr; }
-            .footer-grid { grid-template-columns: repeat(2,1fr); }
-            .stats-row { grid-template-columns: repeat(2,1fr); }
-            .info-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 767.98px) {
-            .hero { padding: 160px 0 60px; }
-            .hero h1 { font-size: 2.2rem; }
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group.full-width { grid-column: span 1; }
-            .glass-card, .info-glass { padding: 20px 16px; }
-            .ai-features-grid { grid-template-columns: 1fr; }
-            .tab-nav { flex-wrap: wrap; }
-            .info-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 1.9rem; }
-            .stats-row { grid-template-columns: repeat(2,1fr); gap: 12px; }
-            .stat-number { font-size: 26px; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .result-actions { flex-direction: column; align-items: center; }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        #coming-soon-toast { display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(17,31,53,0.95); border: 1px solid rgba(0,201,167,0.4); border-radius: 40px; padding: 14px 28px; color: #E2E8F0; font-size: 14px; font-weight: 600; z-index: 9999; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); gap: 10px; align-items: center; }
+        @media (max-width: 991.98px) { .hero h1 { font-size: 2.8rem; } .ai-features-grid { grid-template-columns: 1fr 1fr; } .footer-grid { grid-template-columns: repeat(2,1fr); } .stats-row { grid-template-columns: repeat(2,1fr); } .info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 767.98px) { .hero { padding: 160px 0 60px; } .hero h1 { font-size: 2.2rem; } .form-grid { grid-template-columns: 1fr; } .form-group.full-width { grid-column: span 1; } .glass-card, .info-glass { padding: 20px 16px; } .ai-features-grid { grid-template-columns: 1fr; } .tab-nav { flex-wrap: wrap; } .info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) { .hero h1 { font-size: 1.9rem; } .stats-row { grid-template-columns: repeat(2,1fr); gap: 12px; } .stat-number { font-size: 26px; } .footer-grid { grid-template-columns: 1fr 1fr; } .result-actions { flex-direction: column; align-items: center; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <navbar id="main-nav">
         <div class="container navbar-content">
             <a href="/" class="brand">
@@ -366,25 +172,23 @@
         </div>
     </navbar>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="hero-glow"></div>
         <div class="container">
             <div class="hero-badge">
                 <span class="badge-brand"><i class="fa-solid fa-wand-magic-sparkles"></i> Advanced Diagnostics</span>
             </div>
-            <h1>Predict Your Heart Health with <span>Precision AI</span></h1>
-            <p>Our machine learning bagging classifier analyzes cardiovascular indicators, patient habit metrics, and vital statistics to determine risk levels instantly.</p>
+            <h1>Predict Your Diabetes Risk with <span>Precision AI</span></h1>
+            <p>Our machine learning Random Forest Classifier analyzes clinical markers, lifestyle habits, and vital statistics to determine diabetes risk levels instantly.</p>
             <div class="stats-row">
-                <div class="stat-card"><div class="stat-number">91.89%</div><div class="stat-label">Accuracy</div></div>
-                <div class="stat-card"><div class="stat-number">84.44%</div><div class="stat-label">Precision</div></div>
-                <div class="stat-card"><div class="stat-number">91.89%</div><div class="stat-label">Recall</div></div>
-                <div class="stat-card"><div class="stat-number">88.01%</div><div class="stat-label">F1 Score</div></div>
+                <div class="stat-card"><div class="stat-number">97.0%</div><div class="stat-label">Accuracy</div></div>
+                <div class="stat-card"><div class="stat-number">95.2%</div><div class="stat-label">Precision</div></div>
+                <div class="stat-card"><div class="stat-number">97.0%</div><div class="stat-label">Recall</div></div>
+                <div class="stat-card"><div class="stat-number">96.1%</div><div class="stat-label">F1 Score</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Tab Navigation -->
     <div class="tab-nav" id="predictor-section">
         <button class="tab-btn active" onclick="showTab('assessment', this)"><i class="fa-solid fa-clipboard-list"></i> Assessment Form</button>
         <button class="tab-btn" onclick="showTab('guide', this)"><i class="fa-solid fa-book-open"></i> How to Fill Guide</button>
@@ -393,17 +197,14 @@
 
     <div class="container">
 
-        <!-- ═══ RESULT SECTION — hidden by default, shown by JS ═══ -->
-        <!-- Flask injects prediction_text here. JS reads it and shows correct card. -->
+        <!-- RESULT SECTION -->
         <div id="result-section" class="result-section">
-
             <span id="prediction-result" style="display:none;">{{ prediction }}</span>
 
-            <!-- High Risk Card -->
             <div id="high-risk-card" class="result-card high-risk" style="display:none;">
                 <div class="result-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                <h2 class="result-title">High Risk Detected</h2>
-                <p class="result-desc">We detected a heightened risk profile based on your input parameters. We strongly recommend scheduling a comprehensive cardiac checkup and reviewing lifestyle variables.</p>
+                <h2 class="result-title">Diabetic Risk Detected</h2>
+                <p class="result-desc">Our model indicates a high likelihood of diabetes based on your input parameters. We strongly recommend consulting an endocrinologist and scheduling a comprehensive blood glucose evaluation.</p>
                 <div class="result-actions">
                     <a href="#predictor-section" class="btn-outline">Recalculate Values</a>
                     <button type="button" onclick="showComingSoon()" class="nav-cta" style="background:linear-gradient(135deg,#EF4444,#C53030);box-shadow:0 0 20px rgba(239,68,68,0.4);">
@@ -412,11 +213,10 @@
                 </div>
             </div>
 
-            <!-- Low Risk Card -->
             <div id="low-risk-card" class="result-card low-risk" style="display:none;">
                 <div class="result-icon"><i class="fa-solid fa-circle-check"></i></div>
-                <h2 class="result-title">Low Risk Detected</h2>
-                <p class="result-desc">Your risk profile appears to be low. Continue maintaining a balanced diet, staying active, and participating in regular routine checkups.</p>
+                <h2 class="result-title">Non-Diabetic — Low Risk</h2>
+                <p class="result-desc">Your profile appears to be low risk for diabetes. Continue maintaining a balanced diet, staying active, and monitoring your blood glucose and HbA1c levels regularly.</p>
                 <div class="result-actions">
                     <a href="#predictor-section" class="btn-outline">Recalculate Values</a>
                     <button type="button" onclick="showComingSoon()" class="nav-cta">
@@ -431,74 +231,71 @@
             </div>
         </div>
 
-        <!-- ═══ TAB 1: ASSESSMENT FORM ═══ -->
+        <!-- TAB 1: ASSESSMENT FORM -->
         <div id="assessment" class="tab-page active">
             <div class="glass-card" id="predictor-form">
                 <h2 style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:10px;">
-                    <i class="fa-solid fa-clipboard-list" style="color:var(--hc-teal);"></i> Cardiovascular Assessment Form
+                    <i class="fa-solid fa-clipboard-list" style="color:var(--hc-teal);"></i> Diabetes Risk Assessment Form
                 </h2>
                 <p style="color:var(--hc-muted);font-size:13px;margin-bottom:28px;">
                     Please supply accurate values. Use <strong style="color:var(--hc-teal);">Load Example</strong> to autofill a sample profile for testing.
                 </p>
 
-                <form action="/" method="POST" id="heart-form">
+                <form action="/" method="POST" id="diabetes-form">
 
-                    <!-- Section 1 -->
-                    <div class="form-section-title"><i class="fa-solid fa-notes-medical"></i> 1. Medical History &amp; Risk Factors</div>
+                    <!-- Section 1: Demographics -->
+                    <div class="form-section-title"><i class="fa-solid fa-user-check"></i> 1. Demographics</div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="HighBP">High Blood Pressure <span class="label-tip">Ever diagnosed?</span></label>
-                            <select name="HighBP" id="HighBP" required>
+                            <label for="gender">Gender <span class="label-tip">Biological category</span></label>
+                            <select name="gender" id="gender" required>
+                                <option value="">Select...</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age (Years) <span class="label-tip">Your current age</span></label>
+                            <input type="number" name="age" id="age" step="0.1" min="0" max="120" placeholder="e.g., 45.0" required>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Medical History -->
+                    <div class="form-section-title"><i class="fa-solid fa-notes-medical"></i> 2. Medical History &amp; Risk Factors</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="hypertension">Hypertension <span class="label-tip">High blood pressure?</span></label>
+                            <select name="hypertension" id="hypertension" required>
                                 <option value="">Select...</option>
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="HighChol">High Cholesterol <span class="label-tip">Ever diagnosed?</span></label>
-                            <select name="HighChol" id="HighChol" required>
+                            <label for="heart_disease">Heart Disease <span class="label-tip">Ever diagnosed?</span></label>
+                            <select name="heart_disease" id="heart_disease" required>
                                 <option value="">Select...</option>
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="CholCheck">Cholesterol Check <span class="label-tip">Past 5 years?</span></label>
-                            <select name="CholCheck" id="CholCheck" required>
+                            <label for="smoking_history">Smoking History <span class="label-tip">Current / past status</span></label>
+                            <select name="smoking_history" id="smoking_history" required>
                                 <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
+                                <option value="never">Never</option>
+                                <option value="No Info">No Info</option>
+                                <option value="current">Current</option>
+                                <option value="former">Former</option>
+                                <option value="ever">Ever</option>
+                                <option value="not current">Not Current</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="BMI">Body Mass Index (BMI) <span class="label-tip">Weight(kg)/Height(m)²</span></label>
-                            <input type="number" name="BMI" id="BMI" step="0.1" min="10" max="60" placeholder="e.g., 25.3" required>
+                            <label for="bmi">Body Mass Index (BMI) <span class="label-tip">Weight(kg)/Height(m)²</span></label>
+                            <input type="number" name="bmi" id="bmi" step="0.01" min="10" max="70" placeholder="e.g., 25.19" required>
                             <button type="button" class="bmi-btn" onclick="openBmiDialog()"><i class="fa-solid fa-calculator"></i> Calculate BMI</button>
-                        </div>
-                        <div class="form-group">
-                            <label for="Smoker">Smoking Status <span class="label-tip">Current / past year?</span></label>
-                            <select name="Smoker" id="Smoker" required>
-                                <option value="">Select...</option>
-                                <option value="0">Non-smoker</option>
-                                <option value="1">Smoker</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Stroke">Previous Stroke <span class="label-tip">Ever had a stroke?</span></label>
-                            <select name="Stroke" id="Stroke" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="Diabetes">Diabetes Status <span class="label-tip">Current condition</span></label>
-                            <select name="Diabetes" id="Diabetes" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Pre-diabetes</option>
-                                <option value="2">Yes</option>
-                            </select>
                         </div>
                     </div>
 
@@ -519,105 +316,16 @@
                         <button type="button" class="calc-btn" onclick="calculateBmi()"><i class="fa-solid fa-check"></i> Apply BMI</button>
                     </div>
 
-                    <!-- Section 2 -->
-                    <div class="form-section-title"><i class="fa-solid fa-heart-pulse"></i> 2. Lifestyle &amp; Physical Activity</div>
+                    <!-- Section 3: Clinical Markers -->
+                    <div class="form-section-title"><i class="fa-solid fa-flask"></i> 3. Clinical Lab Markers</div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="PhysActivity">Physical Activity <span class="label-tip">Past 30 days?</span></label>
-                            <select name="PhysActivity" id="PhysActivity" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
+                            <label for="HbA1c_level">HbA1c Level <span class="label-tip">Glycated hemoglobin %</span></label>
+                            <input type="number" name="HbA1c_level" id="HbA1c_level" step="0.1" min="3.0" max="15.0" placeholder="e.g., 6.6" required>
                         </div>
                         <div class="form-group">
-                            <label for="Fruits">Daily Fruit Consumption <span class="label-tip">Servings per day</span></label>
-                            <select name="Fruits" id="Fruits" required>
-                                <option value="">Select...</option>
-                                <option value="0">Less than 1 time per day</option>
-                                <option value="1">1+ times per day</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Veggies">Daily Vegetable Consumption <span class="label-tip">Servings per day</span></label>
-                            <select name="Veggies" id="Veggies" required>
-                                <option value="">Select...</option>
-                                <option value="0">Less than 1 time per day</option>
-                                <option value="1">1+ times per day</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="HvyAlcoholConsump">Heavy Alcohol Consumption <span class="label-tip">Exceeds weekly limit?</span></label>
-                            <select name="HvyAlcoholConsump" id="HvyAlcoholConsump" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Section 3 -->
-                    <div class="form-section-title"><i class="fa-solid fa-hospital-user"></i> 3. Healthcare Access &amp; Health Status</div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="AnyHealthcare">Healthcare Coverage <span class="label-tip">Any insurance/plan?</span></label>
-                            <select name="AnyHealthcare" id="AnyHealthcare" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="NoDocbcCost">Could Not See Doctor Due to Cost <span class="label-tip">Past 12 months</span></label>
-                            <select name="NoDocbcCost" id="NoDocbcCost" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="GenHlth">General Health <span class="label-tip">Self-reported wellness</span></label>
-                            <select name="GenHlth" id="GenHlth" required>
-                                <option value="">Select...</option>
-                                <option value="1">Excellent</option>
-                                <option value="2">Very Good</option>
-                                <option value="3">Good</option>
-                                <option value="4">Fair</option>
-                                <option value="5">Poor</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="MentHlth">Poor Mental Health Days <span class="label-tip">Past 30 days (0–30)</span></label>
-                            <input type="number" name="MentHlth" id="MentHlth" min="0" max="30" placeholder="Enter number of days (0-30)" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="PhysHlth">Poor Physical Health Days <span class="label-tip">Past 30 days (0–30)</span></label>
-                            <input type="number" name="PhysHlth" id="PhysHlth" min="0" max="30" placeholder="Enter number of days (0-30)" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="DiffWalk">Difficulty Walking / Climbing Stairs <span class="label-tip">Serious difficulty?</span></label>
-                            <select name="DiffWalk" id="DiffWalk" required>
-                                <option value="">Select...</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Section 4 -->
-                    <div class="form-section-title"><i class="fa-solid fa-user-check"></i> 4. Demographics</div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="Sex">Gender <span class="label-tip">Biological category</span></label>
-                            <select name="Sex" id="Sex" required>
-                                <option value="">Select...</option>
-                                <option value="0">Female</option>
-                                <option value="1">Male</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Age">Age (Years) <span class="label-tip">Your current age</span></label>
-                            <input type="number" name="Age" id="Age" min="18" max="120" placeholder="Enter your age" required>
+                            <label for="blood_glucose_level">Blood Glucose Level <span class="label-tip">mg/dL</span></label>
+                            <input type="number" name="blood_glucose_level" id="blood_glucose_level" step="1" min="50" max="400" placeholder="e.g., 140" required>
                         </div>
                     </div>
 
@@ -640,40 +348,30 @@
             </div>
         </div>
 
-        <!-- ═══ TAB 2: HOW TO FILL GUIDE ═══ -->
+        <!-- TAB 2: HOW TO FILL GUIDE -->
         <div id="guide" class="tab-page">
             <div class="info-glass">
                 <h2><i class="fa-solid fa-book-open" style="color:var(--hc-teal);margin-right:10px;"></i>How to Fill the Assessment Form</h2>
 
                 <div class="guide-category">
                     <h3>📋 General Guidelines</h3>
-                    <div class="guide-item"><h4>Be Honest and Accurate</h4><p>The AI model's accuracy depends on honest responses. Don't try to "game" the system — provide truthful information about your health status.</p></div>
-                    <div class="guide-item"><h4>Recent Information</h4><p>Use your most recent health information. If you've had recent tests or doctor visits, base your answers on those results.</p></div>
-                    <div class="guide-item"><h4>When in Doubt</h4><p>If you're unsure about a medical condition, choose "Yes" if you've ever been diagnosed with it, even if it's currently controlled.</p></div>
+                    <div class="guide-item"><h4>Be Honest and Accurate</h4><p>The AI model's accuracy depends on honest responses. Provide truthful information about your health status for the most reliable risk assessment.</p></div>
+                    <div class="guide-item"><h4>Use Recent Lab Values</h4><p>Use your most recent blood test results for HbA1c and blood glucose. Values from the past 3 months are ideal.</p></div>
+                    <div class="guide-item"><h4>When in Doubt</h4><p>If unsure about a medical condition, choose "Yes" if you've ever been diagnosed, even if it's currently managed with medication.</p></div>
                 </div>
 
                 <div class="guide-category">
-                    <h3>🩺 Medical History Tips</h3>
-                    <div class="guide-item"><h4>High Blood Pressure</h4><p>Select "Yes" if you've been diagnosed with hypertension or take blood pressure medication, even if it's currently controlled.</p></div>
-                    <div class="guide-item"><h4>High Cholesterol</h4><p>Choose "Yes" if your total cholesterol is above 240 mg/dL or if you take cholesterol medication.</p></div>
-                    <div class="guide-item"><h4>BMI Calculation</h4><p>BMI = weight (kg) ÷ height (m)². Use the built-in "Calculate BMI" button in the form for easy calculation.</p></div>
-                    <div class="guide-item"><h4>Diabetes Status</h4><p>Choose "Pre-diabetes" if your A1C is 5.7–6.4%, "Yes" if A1C ≥ 6.5% or you take diabetes medication.</p></div>
+                    <h3>🩺 Clinical Markers Tips</h3>
+                    <div class="guide-item"><h4>HbA1c Level</h4><p>Normal: below 5.7%. Pre-diabetes: 5.7–6.4%. Diabetic: 6.5% and above. Get this from your latest blood report.</p></div>
+                    <div class="guide-item"><h4>Blood Glucose Level</h4><p>Fasting normal: 70–99 mg/dL. Pre-diabetes: 100–125 mg/dL. Diabetic: 126+ mg/dL. Random glucose above 200 mg/dL also indicates diabetes.</p></div>
+                    <div class="guide-item"><h4>BMI Calculation</h4><p>BMI = weight (kg) ÷ height (m)². Use the built-in "Calculate BMI" button for easy calculation from height and weight.</p></div>
                 </div>
 
                 <div class="guide-category">
-                    <h3>💪 Lifestyle Factors</h3>
-                    <div class="guide-item"><h4>Physical Activity</h4><p>Select "Yes" if you did ANY physical activity in the past 30 days — walking, sports, gym, household work, etc.</p></div>
-                    <div class="guide-item"><h4>Fruit &amp; Vegetable Consumption</h4><p>Count ALL forms — fresh, frozen, canned, dried, and 100% juice. One serving = 1 medium fruit or ½ cup vegetables.</p></div>
-                    <div class="guide-item"><h4>Heavy Alcohol Consumption</h4><p>For men: &gt;14 drinks/week or &gt;4 drinks/day. For women: &gt;7 drinks/week or &gt;3 drinks/day.</p></div>
-                    <div class="guide-item"><h4>Smoking Status</h4><p>Select "Smoker" if you currently smoke or have smoked within the past year, regardless of frequency.</p></div>
-                </div>
-
-                <div class="guide-category">
-                    <h3>🏥 Health Status Guidelines</h3>
-                    <div class="guide-item"><h4>General Health Rating</h4><p>Consider your overall health compared to others your age. Think about energy levels, chronic conditions, and daily functioning.</p></div>
-                    <div class="guide-item"><h4>Mental Health Days</h4><p>Count days with stress, depression, anxiety, or emotional problems that affected your daily activities. Enter 0–30.</p></div>
-                    <div class="guide-item"><h4>Physical Health Days</h4><p>Count days with physical illness, injury, or health problems that limited your activities. Enter 0–30.</p></div>
-                    <div class="guide-item"><h4>Difficulty Walking</h4><p>Consider if you have serious difficulty walking or climbing stairs due to health problems, not just being out of shape.</p></div>
+                    <h3>💪 Lifestyle &amp; History Tips</h3>
+                    <div class="guide-item"><h4>Smoking History</h4><p>Select "Current" if you smoke now, "Former" if you quit more than a year ago, "Never" if you've never smoked. "No Info" if unknown.</p></div>
+                    <div class="guide-item"><h4>Hypertension</h4><p>Select "Yes" if your blood pressure is regularly above 130/80 mmHg or if you take blood pressure medication.</p></div>
+                    <div class="guide-item"><h4>Heart Disease</h4><p>Select "Yes" if you've ever been diagnosed with coronary artery disease, heart attack, angina, or other cardiac conditions.</p></div>
                 </div>
 
                 <div class="guide-warning">
@@ -683,42 +381,29 @@
             </div>
         </div>
 
-        <!-- ═══ TAB 3: PARAMETER INFO ═══ -->
+        <!-- TAB 3: PARAMETER INFO -->
         <div id="info" class="tab-page">
             <div class="info-glass">
                 <h2><i class="fa-solid fa-circle-info" style="color:var(--hc-teal);margin-right:10px;"></i>Parameter Information &amp; Guidelines</h2>
                 <div class="info-grid">
-                    <div class="info-item"><h3>High Blood Pressure</h3><p>Indicates if you have been diagnosed with high blood pressure (hypertension). This is a major risk factor for heart disease.</p></div>
-                    <div class="info-item"><h3>High Cholesterol</h3><p>Shows if you have high cholesterol levels. High cholesterol can lead to plaque buildup in arteries, increasing heart disease risk.</p></div>
-                    <div class="info-item"><h3>Cholesterol Check</h3><p>Whether you've had your cholesterol checked in the past 5 years. Regular monitoring is important for heart health.</p></div>
-                    <div class="info-item"><h3>Body Mass Index (BMI)</h3><p>A measure of body fat based on height and weight. Normal BMI: 18.5–24.9, Overweight: 25–29.9, Obese: 30+.</p></div>
-                    <div class="info-item"><h3>Smoking Status</h3><p>Current or former smoking habits. Smoking significantly increases the risk of heart disease and stroke.</p></div>
-                    <div class="info-item"><h3>Previous Stroke</h3><p>History of stroke indicates higher risk for future cardiovascular events including heart attacks.</p></div>
-                    <div class="info-item"><h3>Diabetes Status</h3><p>Diabetes significantly increases heart disease risk. Pre-diabetes is also a risk factor that should be monitored.</p></div>
-                    <div class="info-item"><h3>Physical Activity</h3><p>Regular physical activity in the past 30 days. Exercise is protective against heart disease.</p></div>
-                    <div class="info-item"><h3>Fruit Consumption</h3><p>Daily fruit intake (1+ servings per day). Fruits provide antioxidants and nutrients that support heart health.</p></div>
-                    <div class="info-item"><h3>Vegetable Consumption</h3><p>Daily vegetable intake (1+ servings per day). Vegetables are rich in heart-healthy nutrients and fiber.</p></div>
-                    <div class="info-item"><h3>Heavy Alcohol Consumption</h3><p>Excessive alcohol intake can increase blood pressure and contribute to heart disease risk.</p></div>
-                    <div class="info-item"><h3>Healthcare Coverage</h3><p>Access to healthcare services affects early detection and management of heart disease risk factors.</p></div>
-                    <div class="info-item"><h3>Healthcare Cost Barriers</h3><p>Financial barriers to healthcare can prevent proper monitoring and treatment of heart disease risk factors.</p></div>
-                    <div class="info-item"><h3>General Health</h3><p>Overall self-reported health status from excellent to poor. General health perception correlates with actual health outcomes.</p></div>
-                    <div class="info-item"><h3>Mental Health Days</h3><p>Number of days in the past 30 days when mental health was not good. Mental health affects overall cardiovascular health.</p></div>
-                    <div class="info-item"><h3>Physical Health Days</h3><p>Number of days in the past 30 days when physical health was not good. This reflects overall health status.</p></div>
-                    <div class="info-item"><h3>Difficulty Walking</h3><p>Serious difficulty walking or climbing stairs. This can indicate mobility issues related to cardiovascular health.</p></div>
-                    <div class="info-item"><h3>Gender</h3><p>Biological sex affects heart disease risk patterns. Men generally have higher risk at younger ages.</p></div>
-                    <div class="info-item"><h3>Age</h3><p>Age is a significant risk factor for heart disease. Risk increases with advancing age for both men and women.</p></div>
+                    <div class="info-item"><h3>Gender</h3><p>Biological sex. Hormonal and physiological differences between males and females affect diabetes risk and insulin sensitivity.</p></div>
+                    <div class="info-item"><h3>Age</h3><p>Age is a major risk factor for Type 2 diabetes. Risk significantly increases after age 45, though Type 2 is increasingly seen in younger adults.</p></div>
+                    <div class="info-item"><h3>Hypertension</h3><p>High blood pressure often co-occurs with diabetes. Insulin resistance can cause both conditions simultaneously, making it a strong predictor.</p></div>
+                    <div class="info-item"><h3>Heart Disease</h3><p>Cardiovascular disease and diabetes share common risk factors. People with heart disease have a higher likelihood of insulin resistance.</p></div>
+                    <div class="info-item"><h3>Smoking History</h3><p>Smoking increases insulin resistance and inflammation, raising diabetes risk by up to 40% in current smokers compared to non-smokers.</p></div>
+                    <div class="info-item"><h3>BMI</h3><p>Body Mass Index is one of the strongest predictors of Type 2 diabetes. BMI ≥ 25 is overweight; ≥ 30 is obese — both significantly raise risk.</p></div>
+                    <div class="info-item"><h3>HbA1c Level</h3><p>Reflects average blood glucose over 2–3 months. The gold standard for diabetes diagnosis. Above 6.5% confirms diabetes; 5.7–6.4% is pre-diabetes.</p></div>
+                    <div class="info-item"><h3>Blood Glucose Level</h3><p>Fasting or random blood glucose measurement. High levels indicate the pancreas is not producing enough insulin or the body is not using it effectively.</p></div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Coming Soon Toast -->
     <div id="coming-soon-toast">
         <i class="fa-solid fa-clock" style="color:#00C9A7;"></i>&nbsp; This feature is coming soon — stay tuned!
     </div>
 
-    <!-- AI Features Section -->
     <section class="ai-features-section" id="features">
         <div class="container">
             <h2 style="text-align:center;font-size:30px;font-weight:800;color:#fff;margin-bottom:15px;">
@@ -728,14 +413,13 @@
                 HealthCart AI uses machine learning methodologies to assist you with early symptom evaluation and clinical risk assessment indicators.
             </p>
             <div class="ai-features-grid">
-                <div class="ai-card"><div class="ai-icon"><i class="fa-solid fa-shield-heart"></i></div><h3>91.89% Bagging Classifier</h3><p>Ensemble Bagging Classifier using Random Forest as a base learner, trained on 380,000+ patient records for robust risk evaluation.</p></div>
+                <div class="ai-card"><div class="ai-icon"><i class="fa-solid fa-shield-heart"></i></div><h3>Bagging Classifier</h3><p>Trained on 100,000+ patient records, our Bagging Classifier with base learner Random Forest model delivers highly accurate diabetes risk predictions from just 8 key clinical features.</p></div>
                 <div class="ai-card"><div class="ai-icon"><i class="fa-solid fa-bolt"></i></div><h3>Sub-Second Inference</h3><p>Hyper-optimized server-side serialization with custom pre-trained pipelines returning diagnostic indices in milliseconds.</p></div>
                 <div class="ai-card"><div class="ai-icon"><i class="fa-solid fa-lock"></i></div><h3>Secure &amp; Private</h3><p>All inputs are processed in-memory on our servers without logging identifiable telemetry. Your privacy remains secure.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container footer-grid">
             <div class="footer-col footer-about">
@@ -784,12 +468,10 @@
     </footer>
 
     <script>
-        // ── Sticky Navbar ──
         window.addEventListener('scroll', function() {
             document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // ── Tab switching ──
         function showTab(tabId, btn) {
             document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -797,9 +479,7 @@
             btn.classList.add('active');
         }
 
-        // ══════════════════════════════════════════════════
-        // RESULT LOGIC — copied exactly from working file
-        // ══════════════════════════════════════════════════
+        // ── RESULT LOGIC — exact same pattern as working file ──
         function showResult() {
             const resultSection = document.getElementById('result-section');
             resultSection.style.display = 'block';
@@ -807,8 +487,6 @@
 
             const predictionElement = document.getElementById('prediction-result');
             let prediction = predictionElement.textContent.trim();
-
-            // Remove brackets like [0] or [1]
             const predictionValue = prediction.replace(/[\[\]]/g, '');
 
             console.log('Raw prediction:', prediction);
@@ -832,13 +510,11 @@
             resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Auto-run on page load — same as working file
         document.addEventListener('DOMContentLoaded', function() {
             const predictionElement = document.getElementById('prediction-result');
             if (predictionElement) {
                 const prediction = predictionElement.textContent.trim();
                 const predictionValue = prediction.replace(/[\[\]]/g, '');
-
                 if (predictionValue === '1' || predictionValue === '0') {
                     showResult();
                 } else {
@@ -847,45 +523,33 @@
             }
         });
 
-        // ── BMI Dialog ──
         function openBmiDialog()  { document.getElementById('bmi-dialog').classList.add('open'); }
         function closeBmiDialog() { document.getElementById('bmi-dialog').classList.remove('open'); }
         function calculateBmi() {
             const h = parseFloat(document.getElementById('bmi_height').value);
             const w = parseFloat(document.getElementById('bmi_weight').value);
             if (isNaN(h) || h <= 0 || isNaN(w) || w <= 0) { alert('Please enter valid height and weight.'); return; }
-            document.getElementById('BMI').value = (w / Math.pow(h / 100, 2)).toFixed(1);
+            document.getElementById('bmi').value = (w / Math.pow(h / 100, 2)).toFixed(2);
             closeBmiDialog();
         }
 
-        // ── Load Example ──
+        // Load Example — row 0 from dataset: Female, 80, no hypertension, heart_disease=1, never, 25.19, 6.6, 140
         function loadExample(event) {
-            document.getElementById('HighBP').value           = '1';
-            document.getElementById('HighChol').value         = '1';
-            document.getElementById('CholCheck').value        = '1';
-            document.getElementById('BMI').value              = '28.5';
-            document.getElementById('Smoker').value           = '0';
-            document.getElementById('Stroke').value           = '0';
-            document.getElementById('Diabetes').value         = '1';
-            document.getElementById('PhysActivity').value     = '1';
-            document.getElementById('Fruits').value           = '1';
-            document.getElementById('Veggies').value          = '1';
-            document.getElementById('HvyAlcoholConsump').value = '0';
-            document.getElementById('AnyHealthcare').value    = '1';
-            document.getElementById('NoDocbcCost').value      = '0';
-            document.getElementById('GenHlth').value          = '3';
-            document.getElementById('MentHlth').value         = '5';
-            document.getElementById('PhysHlth').value         = '3';
-            document.getElementById('DiffWalk').value         = '0';
-            document.getElementById('Sex').value              = '1';
-            document.getElementById('Age').value              = '52';
+            document.getElementById('gender').value              = 'Female';
+            document.getElementById('age').value                 = '80.0';
+            document.getElementById('hypertension').value        = '0';
+            document.getElementById('heart_disease').value       = '1';
+            document.getElementById('smoking_history').value     = 'never';
+            document.getElementById('bmi').value                 = '25.19';
+            document.getElementById('HbA1c_level').value         = '6.6';
+            document.getElementById('blood_glucose_level').value = '140';
 
             const btn = event.currentTarget;
             const orig = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Loaded!';
-            btn.style.background   = 'rgba(16,185,129,0.15)';
-            btn.style.borderColor  = '#10B981';
-            btn.style.color        = '#10B981';
+            btn.style.background  = 'rgba(16,185,129,0.15)';
+            btn.style.borderColor = '#10B981';
+            btn.style.color       = '#10B981';
             setTimeout(() => {
                 btn.innerHTML = orig;
                 btn.style.background  = 'rgba(0,201,167,0.1)';
@@ -894,7 +558,6 @@
             }, 1500);
         }
 
-        // ── Coming Soon Toast ──
         function showComingSoon() {
             const toast = document.getElementById('coming-soon-toast');
             toast.style.display = 'flex';
