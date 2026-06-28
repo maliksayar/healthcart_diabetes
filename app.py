@@ -69,68 +69,73 @@ import os
 
 app = Flask(__name__)
 
-API_URL = "https://jarvis0852-heart-disease-api.hf.space/predict"
+API_URL = "https://jarvis0852-diabetes_prediction_ai_ml.hf.space/predict"
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        return render_template('index.html', prediction=None)
-    
+        return render_template('diabetes_index.html', prediction=None)
+
     elif request.method == 'POST':
         try:
-            # Extract and validate form data
             data = {}
+
+            # Gender — string field
+            data['gender'] = request.form['gender']
+            if data['gender'] not in ['Female', 'Male', 'Other']:
+                return render_template('diabetes_index.html', prediction=None, error="Invalid value for Gender.")
+
+            # Age
+            data['age'] = float(request.form['age'])
+            if not 0 <= data['age'] <= 120:
+                return render_template('diabetes_index.html', prediction=None, error="Age must be between 0 and 120.")
+
             # Binary fields (0 or 1)
-            binary_fields = ['HighBP', 'HighChol', 'CholCheck', 'Smoker', 'Stroke', 'PhysActivity',
-                           'Fruits', 'Veggies', 'HvyAlcoholConsump', 'AnyHealthcare',
-                           'NoDocbcCost', 'DiffWalk', 'Sex']
+            binary_fields = ['hypertension', 'heart_disease']
             for field in binary_fields:
                 value = float(request.form[field])
                 if value not in [0, 1]:
-                    return render_template('index.html', prediction=None, error=f"Invalid value for {field}. Must be 0 or 1.")
+                    return render_template('diabetes_index.html', prediction=None, error=f"Invalid value for {field}. Must be 0 or 1.")
                 data[field] = value
-            
-            # Numeric fields with specific ranges
-            data['BMI'] = float(request.form['BMI'])
-            if not 10 <= data['BMI'] <= 60:
-                return render_template('index.html', prediction=None, error="BMI must be between 10 and 60.")
-            
-            data['GenHlth'] = float(request.form['GenHlth'])
-            if not 1 <= data['GenHlth'] <= 5:
-                return render_template('index.html', prediction=None, error="General Health must be between 1 and 5.")
-            
-            for field in ['MentHlth', 'PhysHlth']:
-                data[field] = float(request.form[field])
-                if not 0 <= data[field] <= 30:
-                    return render_template('index.html', prediction=None, error=f"{field} must be between 0 and 30.")
-            
-            data['Age'] = float(request.form['Age'])
-            if not 18 <= data['Age'] <= 120:
-                return render_template('index.html', prediction=None, error="Age must be between 18 and 120.")
-            
-            # Diabetes requires special handling (0, 1, or 2)
-            data['Diabetes'] = float(request.form['Diabetes'])
-            if data['Diabetes'] not in [0, 1, 2]:
-                return render_template('index.html', prediction=None, error="Diabetes must be 0 (No), 1 (Pre-diabetes), or 2 (Yes).")
+
+            # Smoking history — string field
+            data['smoking_history'] = request.form['smoking_history']
+            if data['smoking_history'] not in ['never', 'No Info', 'current', 'former', 'ever', 'not current']:
+                return render_template('diabetes_index.html', prediction=None, error="Invalid value for Smoking History.")
+
+            # BMI
+            data['bmi'] = float(request.form['bmi'])
+            if not 10 <= data['bmi'] <= 70:
+                return render_template('diabetes_index.html', prediction=None, error="BMI must be between 10 and 70.")
+
+            # HbA1c Level
+            data['HbA1c_level'] = float(request.form['HbA1c_level'])
+            if not 3.0 <= data['HbA1c_level'] <= 15.0:
+                return render_template('diabetes_index.html', prediction=None, error="HbA1c Level must be between 3.0 and 15.0.")
+
+            # Blood Glucose Level
+            data['blood_glucose_level'] = float(request.form['blood_glucose_level'])
+            if not 50 <= data['blood_glucose_level'] <= 400:
+                return render_template('diabetes_index.html', prediction=None, error="Blood Glucose Level must be between 50 and 400.")
 
             # Call Hugging Face API
             response = requests.post(API_URL, json=data, timeout=30)
-            
+
             if response.status_code == 200:
                 result = response.json()
                 prediction = [result.get('prediction', 0)]  # Pass as list for template compatibility
-                return render_template('index.html', prediction=prediction, error=None)
+                return render_template('diabetes_index.html', prediction=prediction, error=None)
             else:
-                return render_template('index.html', prediction=None, error="Prediction service unavailable")
-                
-        except ValueError:
-            return render_template('index.html', prediction=None, error="Please enter valid numbers for all fields.")
-        except Exception as e:
-            return render_template('index.html', prediction=None, error=f"Error: {str(e)}")
-    
-    else:
-        return render_template('index.html', prediction=None)
+                return render_template('diabetes_index.html', prediction=None, error="Prediction service unavailable")
 
-# This is important for Vercel
+        except ValueError:
+            return render_template('diabetes_index.html', prediction=None, error="Please enter valid numbers for all fields.")
+        except Exception as e:
+            return render_template('diabetes_index.html', prediction=None, error=f"Error: {str(e)}")
+
+    else:
+        return render_template('diabetes_index.html', prediction=None)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
