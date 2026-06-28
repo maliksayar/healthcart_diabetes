@@ -69,7 +69,7 @@ import os
 
 app = Flask(__name__)
 
-API_URL = "https://jarvis0852-diabetes_prediction_ai_ml.hf.space/predict"
+API_URL = "https://jarvis0852-diabetes_prediction_ai_ml.hf.space"
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
